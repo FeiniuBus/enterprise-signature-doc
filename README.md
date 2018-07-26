@@ -1,37 +1,28 @@
-## Welcome to GitHub Pages
+## 欢迎使用飞牛巴士企业签名
 
-You can use the [editor on GitHub](https://github.com/FeiniuBus/signature-doc/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+本文将会为您描述签名操作的技术要领。
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+除此之外，我们还提供开箱即用的签名工具库。
 
-### Markdown
+工具库目前支持以下语言：
+  * Java 1.5+
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+本文只提供签名相关的信息，API信息请另行查阅。
 
-```markdown
-Syntax highlighted code block
+### 准备工作
 
-# Header 1
-## Header 2
-### Header 3
+在开始之前，请确认您已经从我公司获得供第三方使用的用户凭证（APPID和APPSECRET）。
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/FeiniuBus/signature-doc/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### 签名要素（Payload）
+签名要素是组成签名内容的各个部分，目前签名要素由5个部分组成：
+  * `Timestamp` : 发起请求时的Unix时间戳，精确到 `秒`
+  * `APPID` : 我公司提供的32位字符串ID
+  * `RequestMethod` : 发起请求的方法
+  * `RequestUrl` : 发起请求的地址
+  * `RequestBody` : 发起请求的请求体，可以为空
+ 
+签名要素需要按以下格式组成一个字节数组（Byte Array）:
+![image](https://github.com/FeiniuBus/enterprise-signature-doc/raw/master/%E4%BC%81%E4%B8%9A%E7%BD%91%E5%85%B3%E7%AD%BE%E5%90%8D.jpg)
+   
+### 签名算法
+得到签名要素(Payload)后，使用我公司提供的 `APPSECRET` 作为密钥，使用 `HMACSHA256` 算法计算 `Payload` 的摘要，至此签名完成。
