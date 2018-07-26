@@ -2,10 +2,10 @@
 
 本文将会为您描述签名操作的技术要领。
 
-除此之外，我们还提供开箱即用的签名工具库。
+除此之外，我们还提供开箱即用的签名工具库。（[下载资源](https://github.com/FeiniuBus/enterprise-signature-doc/releases)）
 
 工具库目前支持以下语言：
-  * [Java 1.5+](javalib)
+  * Java 1.5+ （[范例](https://github.com/FeiniuBus/signature-sample-java)）
 
 本文只提供签名相关的信息，API信息请另行查阅。
 
