@@ -5,7 +5,7 @@
 除此之外，我们还提供开箱即用的签名工具库。
 
 工具库目前支持以下语言：
-  * [Java 1.5+](https://github.com/FeiniuBus/enterprise-signature-doc/releases)
+  * [Java 1.5+](javalib)
 
 本文只提供签名相关的信息，API信息请另行查阅。
 
