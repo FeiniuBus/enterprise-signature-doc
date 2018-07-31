@@ -6,6 +6,9 @@
 
 工具库目前支持以下语言：
   * Java 1.5+ （[范例](https://github.com/FeiniuBus/signature-sample-java)）
+  * PHP 5+
+  * .NetCore 2.0+
+  * .NetFramework 3.5+
 
 本文只提供签名相关的信息，API信息请另行查阅。
 
@@ -24,5 +27,45 @@
 签名要素需要按以下格式组成一个字节数组（Byte Array）:
 ![image](https://github.com/FeiniuBus/enterprise-signature-doc/raw/master/%E4%BC%81%E4%B8%9A%E7%BD%91%E5%85%B3%E7%AD%BE%E5%90%8D.jpg)
    
-### 签名算法
-得到签名要素(Payload)后，使用我公司提供的 `APPSECRET` 作为密钥，使用 `HMACSHA256` 算法计算 `Payload` 的摘要，至此签名完成。
+### 使用范例
+** 请先行从我公司获取相关SDK **
+
+#### Java
+##### Get 请求
+
+```java
+  String APP_ID ="我司提供的APPID";
+  String APP_SECRET = "我司提供的APPSECRET";
+
+  QueryString qs = new QueryString();
+  qs.add("adcode", "510100"); //Url参数
+
+  Payload payload = new Payload();
+  payload.setAppId(APP_ID);
+  payload.setRequestMethod(RequestMethod.GET);
+  payload.setRequestUrl("请求的服务URL，例如 /bus/type");
+  payload.setQueryString(qs);
+  payload.setTimestamp(TIMESTAMP); //当前时间的UNIX时间戳
+
+  String signature = SignatureUtil.sign(payload, APP_SECRET);
+
+  System.out.println(signature);
+```
+
+##### POST 请求
+
+```java
+  String APP_ID ="我司提供的APPID";
+  String APP_SECRET = "我司提供的APPSECRET";
+
+  Payload payload = new Payload();
+  payload.setAppId(APP_ID);
+  payload.setRequestMethod(RequestMethod.POST);
+  payload.setRequestUrl("请求的服务URL，例如 /bus/type");
+  payload.setContent("请求体字符串".getBytes("utf-8"));//务必使用UTF-8编码集
+  payload.setTimestamp(TIMESTAMP); //当前时间的UNIX时间戳
+
+  String signature = SignatureUtil.sign(payload, APP_SECRET);
+
+  System.out.println(signature);
+```
