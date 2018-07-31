@@ -62,10 +62,54 @@
   payload.setAppId(APP_ID);
   payload.setRequestMethod(RequestMethod.POST);
   payload.setRequestUrl("请求的服务URL，例如 /bus/type");
-  payload.setContent("请求体字符串".getBytes("utf-8"));//务必使用UTF-8编码集
+  payload.setContent("请求体JSON字符串".getBytes("utf-8")); //务必使用UTF-8编码集
   payload.setTimestamp(TIMESTAMP); //当前时间的UNIX时间戳
 
   String signature = SignatureUtil.sign(payload, APP_SECRET);
 
   System.out.println(signature);
+```
+
+#### .NetCore & .NetFramwork (C#)
+##### GET 请求
+
+```csharp
+  private const string AppId="我司提供的APPID";
+  private const string AppSecret="我司提供的APPSECRET";
+
+  var qs = new QueryString();
+  qs.Add("adcode", "510100"); //Url参数
+
+  var payload = new Payload
+  {
+    AppId = Configuration.Instance.AppId
+  };
+  payload.RequestMethod = RequestMethod.Get;
+  payload.RequestUrl = "请求的服务URL，例如 /bus/type";
+  payload.QueryString = qs.ToString();
+  payload.Timestamp=TIMESTAMP; //当前时间的UNIX时间戳
+  
+  var signature = SignatureUtil.Sign(payload, AppSecret);
+
+  Console.WriteLine(signature);
+```
+
+##### POST 请求
+
+```csharp
+  private const string AppId="我司提供的APPID";
+  private const string AppSecret="我司提供的APPSECRET";
+
+  var payload = new Payload
+  {
+    AppId = Configuration.Instance.AppId
+  };
+  payload.RequestMethod = RequestMethod.Get;
+  payload.RequestUrl = "请求的服务URL，例如 /bus/type";
+  payload.Content = Encoding.UTF8.GetBytes("请求体JSON字符串"); //务必使用UTF-8编码集
+  payload.Timestamp=TIMESTAMP; //当前时间的UNIX时间戳
+  
+  var signature = SignatureUtil.Sign(payload, AppSecret);
+
+  Console.WriteLine(signature);
 ```
