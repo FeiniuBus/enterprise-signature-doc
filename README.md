@@ -2,10 +2,10 @@
 
 本文将会为您描述签名操作的技术要领。
 
-除此之外，我们还提供开箱即用的签名工具库。（[下载资源](https://github.com/FeiniuBus/enterprise-signature-doc/releases)）
+除此之外，我们还提供开箱即用的签名工具库。
 
 工具库目前支持以下语言：
-  * Java 1.5+ （[范例](https://github.com/FeiniuBus/signature-sample-java)）
+  * Java 1.5+ 
   * PHP 5+
   * .NetCore 2.0+
   * .NetFramework 3.5+
@@ -21,6 +21,7 @@
   * `Timestamp` : 发起请求时的Unix时间戳，精确到 `秒`
   * `APPID` : 我公司提供的32位字符串ID
   * `RequestMethod` : 发起请求的方法
+  * `RequestParam` : URL参数
   * `RequestUrl` : 发起请求的地址
   * `RequestBody` : 发起请求的请求体，可以为空
  
@@ -112,4 +113,54 @@
   var signature = SignatureUtil.Sign(payload, AppSecret);
 
   Console.WriteLine(signature);
+```
+
+#### PHP
+##### GET 请求
+
+```php
+<?php
+  header("content-type:text/html;charset=utf8");  //务必使用UTF-8编码集
+
+  //此处应当include所有SDK代码文件
+
+  $appId = "我司提供的APPID";
+  $appSecret = "我司提供的APPSECRET";
+
+  $queryString = new FeiniuBusQueryString();
+  $queryString->append("adcode", "510100"); //Url参数
+
+  $payload = new FeiniuBusPayload();
+  $payload->AppId=$appId;
+  $payload->RequestUrl="/bus/type";
+  $payload->RequestMethod="GET";
+  $payload->QueryString=$queryString->toString();
+  $payload->Content="";
+  $payload->Timestamp="TIMESTAMP"; //当前时间的UNIX时间戳
+
+  $util = new FeiniuBusSignatureUtil();
+  echo $util->sign($payload, $appSecret);
+```
+
+##### POST 请求
+
+```php
+<?php
+  header("content-type:text/html;charset=utf8");  //务必使用UTF-8编码集
+
+  //此处应当include所有SDK代码文件
+
+  $appId = "我司提供的APPID";
+  $appSecret = "我司提供的APPSECRET";
+
+  $payload = new FeiniuBusPayload();
+  $payload->AppId=$appId;
+  $payload->RequestUrl="/bus/type";
+  $payload->RequestMethod="POST";
+  $payload->QueryString="";
+  $payload->Content="请求体JSON字符串";
+  $payload->Timestamp="TIMESTAMP"; //当前时间的UNIX时间戳
+
+  $util = new FeiniuBusSignatureUtil();
+  echo $util->sign($payload, $appSecret);
 ```
